@@ -1,6 +1,6 @@
 import torch
-from baseline_text_graphs.transformed_dataset import TransformedDataset
 
+# from baseline_text_graphs.transformed_dataset import TransformedDataset
 from finetuning_encoders.configs import (
     DataLoaderConfig,
     TokenizerConfig,
@@ -10,21 +10,23 @@ from finetuning_encoders.dataset import RequiredDatasetFormat, TransformerInput
 from finetuning_encoders.engine.engine import Engine
 from finetuning_encoders.engine.evaluator import Evaluator
 from finetuning_encoders.engine.generator import Generator
+from finetuning_encoders.glue.downloader import RawGLUE
 from finetuning_encoders.model import EncoderModel
 from finetuning_encoders.utils import get_device, modify_tensor
 
 # Parameters for tuning with initial values
-params = TuneableParameters()
+params = TuneableParameters(dataset_name="cola")
 # The following dataset is for an example, you can replace it with your own dataset and convert it to the required format
-d = TransformedDataset(dataset_name=params.dataset_name)
-
+# d = TransformedDataset(dataset_name=params.dataset_name)
+d = RawGLUE(dataset_name=params.dataset_name)
 device = get_device()
+
 
 # Convertion your own dataset to the required format
 
 dataset = RequiredDatasetFormat(
     dataset_name=params.dataset_name,
-    documents=d.docs,
+    documents=d.documents,
     train_mask=modify_tensor(d.train_mask, params.train_percentage),
     test_mask=d.test_mask,
     labels=d.y,

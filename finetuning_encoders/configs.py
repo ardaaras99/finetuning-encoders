@@ -5,11 +5,11 @@ from dataclasses import dataclass
 class TuneableParameters:
     dataset_name: str = "mr"
     model_checkpoint: str = "roberta-base"
-    max_length: int = 128
+    max_length: int = 8
     batch_size: int = 32
     dropout: float = 0.1
     lr: float = 5e-5
-    train_percentage: int = 100
+    train_percentage: int = 10
 
 
 @dataclass
