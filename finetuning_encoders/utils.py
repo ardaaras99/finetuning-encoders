@@ -9,6 +9,7 @@ from baseline_text_graphs.transformed_dataset import TransformedDataset
 
 from finetuning_encoders import PROJECT_PATH
 from finetuning_encoders.glue.downloader import RawGLUE
+from finetuning_encoders.datamodule import RequiredDatasetFormat
 
 
 def read_best_model(model_checkpoint: str, dataset_name: str, train_percentage: float):
@@ -55,6 +56,19 @@ def get_raw_data(
         raise ValueError("Invalid dataset name")
 
     return d, documents
+
+
+def generate_required_dataset_format(dataset_name, train_mask) -> RequiredDatasetFormat:
+    d, documents = get_raw_data(dataset_name)
+
+    dataset = RequiredDatasetFormat(
+        dataset_name=dataset_name,
+        documents=documents,
+        train_mask=train_mask,
+        test_mask=d.test_mask,
+        labels=d.y,
+    )
+    return dataset
 
 
 def get_device():
