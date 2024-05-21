@@ -44,7 +44,7 @@ def get_raw_data(
     dataset_name: str,
 ) -> Tuple[Union[RawGLUE, TransformedDataset], List[str]]:
 
-    if dataset_name in ["cola", "sst-2"]:
+    if dataset_name in ["cola", "sst2"]:
         d = RawGLUE(dataset_name=dataset_name)
         documents = d.documents
 
