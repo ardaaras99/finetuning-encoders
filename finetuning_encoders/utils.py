@@ -8,8 +8,8 @@ import torch
 from baseline_text_graphs.transformed_dataset import TransformedDataset
 
 from finetuning_encoders import PROJECT_PATH
-from finetuning_encoders.glue.downloader import RawGLUE
 from finetuning_encoders.datamodule import RequiredDatasetFormat
+from finetuning_encoders.glue.downloader import RawGLUE
 
 
 def read_best_model(model_checkpoint: str, dataset_name: str, train_percentage: float):
@@ -44,7 +44,7 @@ def get_raw_data(
     dataset_name: str,
 ) -> Tuple[Union[RawGLUE, TransformedDataset], List[str]]:
 
-    if dataset_name in ["cola", "sst"]:
+    if dataset_name in ["cola", "sst-2"]:
         d = RawGLUE(dataset_name=dataset_name)
         documents = d.documents
 
