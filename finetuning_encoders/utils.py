@@ -1,6 +1,7 @@
 import glob
 import random
 import re
+from typing import List, Tuple, Union
 
 import numpy as np
 import torch
@@ -38,7 +39,9 @@ def read_best_model(model_checkpoint: str, dataset_name: str, train_percentage: 
     return best_model, train_mask, saved_test_acc, max_length
 
 
-def get_raw_data(dataset_name: str):
+def get_raw_data(
+    dataset_name: str,
+) -> Tuple[Union[RawGLUE, TransformedDataset], List[str]]:
 
     if dataset_name in ["cola", "sst"]:
         d = RawGLUE(dataset_name=dataset_name)
