@@ -17,5 +17,4 @@ class EncoderModel(nn.Module):
         out = self.dropout(cls_feats)
         logits = self.classifier(out)
         out = F.log_softmax(logits, dim=1)
-        #! We assume that loss will be nn.CrossEntropyLoss() and we will use F.log_softmax(logits, dim=1) in the loss function
         return out

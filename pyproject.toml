@@ -13,9 +13,11 @@ numpy = "^1.19.2"
 scikit-learn = "^1.2.0"
 pandas = "^1.5.2"
 torch = "2.0.0"
-wandb = "^0.15.12"
 datasets = "^2.17.1"
-baseline-text-graphs = {git = "https://github.com/ardaaras99/baseline-text-graphs.git", rev = "main"}
+baseline-text-graphs = { git = "https://github.com/ardaaras99/baseline-text-graphs.git", rev = "main" }
+click = "^8.1.7"
+python-dotenv = "^1.0.1"
+wandb = { extras = ["sweeps"], version = "^0.15.12" }
 
 
 [tool.poetry.group.dev.dependencies]

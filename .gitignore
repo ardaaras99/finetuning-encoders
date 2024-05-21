@@ -163,3 +163,5 @@ cython_debug/
 
 data/
 poetry.lock
+wandb/
+best_models/
