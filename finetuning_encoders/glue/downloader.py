@@ -28,7 +28,8 @@ class RawGLUE:
         self.dataset_path = GLUE_DATASET_PATH.joinpath(f"{dataset_name}_raw_data.pkl")
 
         if self.dataset_path.is_file():
-            print(f"{dataset_name} dataset already exists.")
+            # print(f"{dataset_name} dataset already exists.")
+            pass
         else:
             self.downnload()
         self.convert_to_required_format()
