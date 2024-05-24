@@ -1,3 +1,5 @@
+import glob
+
 from finetuning_encoders import PROJECT_PATH
 from finetuning_encoders.configs import DataLoaderConfig, TokenizerConfig
 from finetuning_encoders.datamodule import RequiredDatasetFormat, TransformerInput
@@ -27,7 +29,7 @@ def main(model_checkpoint, dataset_name, train_percentage):
         model_checkpoint=model_checkpoint,
         dataset=dataset,
         tokenizer_config=TokenizerConfig(max_length=max_length),
-        data_loader_config=DataLoaderConfig(batch_size=32),
+        data_loader_config=DataLoaderConfig(batch_size=32, shuffle=False),
     )
 
     generator = Generator(
@@ -52,17 +54,33 @@ def main(model_checkpoint, dataset_name, train_percentage):
     cls_embds = generator.generate_embeddings()
     Generator.test_embeddings(cls_embds, len(dataset.documents))
     Generator.save_embeddings(
-        cls_embds, dataset_name, train_percentage, model_checkpoint
+        cls_embds,
+        dataset_name,
+        train_percentage,
+        model_checkpoint,
     )
 
 
 if __name__ == "__main__":
     for dataset_name in ["mr", "R8", "R52", "ohsumed", "sst2", "cola"]:
         for train_percentage in [1, 5, 10, 20]:
-            saving_convention = (
-                f"best_models/roberta-base-{dataset_name}-{train_percentage}"
-            )
-            path = PROJECT_PATH.joinpath(saving_convention)
-            if path.exists():
-                print("Running generation for:", dataset_name, train_percentage)
-                main("roberta_base", dataset_name, train_percentage)
+            convention = f"best_models/roberta-base-{dataset_name}-{train_percentage}"
+            folder_path = PROJECT_PATH.joinpath(convention)
+            model_file_path = PROJECT_PATH.joinpath(folder_path, "best_model_*.pth")
+            exists = glob.glob(str(model_file_path))
+            # check if best_model exists
+            if exists:
+                # check if embeddings exists
+                if not folder_path.joinpath("embeddings.pth").exists():
+                    print("Running generation for:", dataset_name, train_percentage)
+                    main(
+                        model_checkpoint="roberta-base",
+                        dataset_name=dataset_name,
+                        train_percentage=train_percentage,
+                    )
+                else:
+                    print("Embeddings exists for:", dataset_name, train_percentage)
+                    continue
+                # if not run generation
+            else:
+                continue

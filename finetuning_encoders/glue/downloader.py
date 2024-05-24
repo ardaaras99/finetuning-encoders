@@ -42,7 +42,7 @@ class RawGLUE:
         raw_dataset = pickle.load(open(self.dataset_path, "rb"))
 
         train = raw_dataset["train"].to_pandas()
-        test = raw_dataset["test"].to_pandas()
+        test = raw_dataset["validation"].to_pandas()
 
         self.documents = train["sentence"].tolist() + test["sentence"].tolist()
         train_labels = train["label"].tolist()
